@@ -2,7 +2,11 @@ package com.itmang.controller;
 
 
 import com.itmang.constant.JwtClaimsConstant;
+import com.itmang.constant.MessageConstant;
 import com.itmang.pojo.dto.LoginDTO;
+import com.itmang.pojo.dto.UserDTO;
+import com.itmang.pojo.dto.UserPageDTO;
+import com.itmang.pojo.entity.PageResult;
 import com.itmang.pojo.entity.Result;
 import com.itmang.pojo.entity.User;
 import com.itmang.pojo.vo.LoginVO;
@@ -58,6 +62,25 @@ public class UserController {
                 .build();
 
         return Result.success(loginVO);
+    }
+
+    /**
+     * 退出登录接口
+     * @return
+     */
+    @Operation(summary = "退出登录接口")
+    @PostMapping("/logout")
+    public Result<String> logout(){
+        log.info("用户退出登录");
+        return Result.success(MessageConstant.LOGOUT_SUCCESS);
+    }
+
+    @Operation(summary = "分页查询用户接口")
+    @GetMapping("/page")
+    public Result<PageResult> page(UserPageDTO userPageDTO){
+        log.info("分页查询用户信息:{}", userPageDTO);
+        PageResult pageResult = userService.pageSearch(userPageDTO);
+        return Result.success(pageResult);
     }
 
 

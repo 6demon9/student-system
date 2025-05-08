@@ -1,15 +1,23 @@
 package com.itmang.utils;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.itmang.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
 
+
 public class JwtUtil {
+
+
+
     /**
      * 生成jwt
      * 使用Hs256算法, 私匙使用固定秘钥
@@ -55,5 +63,19 @@ public class JwtUtil {
                 .parseClaimsJws(token).getBody();
         return claims;
     }
+//    public static boolean verifyToken(String token) {
+//        if (StringUtils.isEmpty(token)) {// token为空
+//            return false;
+//        }
+//        try{
+//            Claims claims = Jwts.parser()
+//                    .setSigningKey(jwtProperties.getAdminSecretKey())
+//                    .parseClaimsJws(token)
+//                    .getBody();
+//        }catch (Exception e){
+//            return false;
+//        }
+//        return true;
+//    }
 
 }

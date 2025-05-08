@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itmang.mapper.UserMapper">
+
+    <select id="pageSearch" resultType="com.itmang.pojo.entity.User">
+        select number,name,role_id,sex,age,phone,address,create_time,create_by,
+               update_time,update_by,status from user
+        <where>
+            <if test="number != null and number != ''">
+                and number like concat('%',#{number},'%')
+            </if>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="sex != null and sex != ''">and sex = #{sex}</if>
+            <if test="age != null and age != ''">and age = #{age}</if>
+            <if test="address != null and address != ''">
+                and address like concat('%',#{address},'%')
+            </if>
+            <if test="status != null and status != ''">and status = #{status}</if>
+        </where>
+    </select>
+
+</mapper>

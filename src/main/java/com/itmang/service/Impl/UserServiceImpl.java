@@ -2,12 +2,17 @@ package com.itmang.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.itmang.constant.MessageConstant;
 import com.itmang.constant.StatusConstant;
 import com.itmang.exception.AccountLockedException;
 import com.itmang.exception.AccountNotFoundException;
 import com.itmang.mapper.UserMapper;
 import com.itmang.pojo.dto.LoginDTO;
+import com.itmang.pojo.dto.UserDTO;
+import com.itmang.pojo.dto.UserPageDTO;
+import com.itmang.pojo.entity.PageResult;
 import com.itmang.pojo.entity.User;
 import com.itmang.service.UserService;
 import com.itmang.exception.PasswordErrorException;
@@ -23,9 +28,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 
     @Autowired
     private UserMapper userMapper;
-
-
-
 
     /**
      * 用户登录
@@ -59,5 +61,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         }
         //3、返回实体对象
         return user;
+    }
+
+    /**
+     * 分页查询
+     * @param userPageDTO
+     * @return
+     */
+    public PageResult pageSearch(UserPageDTO userPageDTO) {
+        //使用pageHelper工具进行分页查询
+        PageHelper.startPage(userPageDTO.getPageNum(),userPageDTO.getPageSize());
+        //进行条件查询
+        Page<User> page = userMapper.pageSearch(userPageDTO);
+        return new PageResult(page.getTotal(),page.getResult());
     }
 }
