@@ -1,7 +1,6 @@
 package com.itmang.pojo.entity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,21 +13,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(description = "权限实体类")
+@Schema(name = "Permission",description = "权限实体类")
 public class Permission {
 
-    @ApiModelProperty("权限id")
+    @Schema(name = "id",description = "权限id")
     private Long id;
-    @ApiModelProperty("权限名称")
+    @Schema(name = "permissionName",description = "权限名称")
     private String permissionName;
-    @ApiModelProperty("权限描述")
+    @Schema(name = "description",description = "权限描述")
     private String description;
-    @ApiModelProperty("创建时间")
+    @Schema(name = "createTime",description = "创建时间")
     private LocalDateTime createTime;
-    @ApiModelProperty("创建人")
+    @Schema(name = "createBy",description = "创建人")
     private Long createBy;
-    @ApiModelProperty("修改时间")
+    @Schema(name = "updateTime",description = "修改时间")
     private LocalDateTime updateTime;
-    @ApiModelProperty("修改人")
+    @Schema(name = "updateBy",description = "修改人")
     private Long updateBy;
 }

@@ -33,4 +33,15 @@ logging:
         service: info
         controller: info
 
+springdoc:
+  api-docs:
+    #是否开启文档功能
+    enabled: true
+    #swagger后端文档请求地址
+    path: /api-docs
+  swagger-ui:
+    #自定义前端请求路径
+    path: /swagger-ui
+  #包扫描的路径,可定义多个扫描路径，如果是多个则用逗号隔开
+  packages-to-scan: com.itmang.controller
 

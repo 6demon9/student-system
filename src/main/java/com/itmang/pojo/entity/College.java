@@ -1,7 +1,6 @@
 package com.itmang.pojo.entity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,21 +12,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(description = "学院实体类")
+@Schema(name = "College",description = "学院实体类")
 public class College {
 
-    @ApiModelProperty("学院id")
+    @Schema(name = "id",description = "学院id")
     private Long id;
-    @ApiModelProperty("学院名称")
+    @Schema(name = "name",description = "学院名称")
     private String name;
-    @ApiModelProperty("学院人数")
+    @Schema(name = "num",description = "学院人数")
     private Integer num;
-    @ApiModelProperty("创建时间")
+    @Schema(name = "createTime",description = "创建时间")
     private LocalDateTime createTime;
-    @ApiModelProperty("创建人")
+    @Schema(name = "createBy",description = "创建人")
     private Long createBy;
-    @ApiModelProperty("修改时间")
+    @Schema(name = "updateTime",description = "修改时间")
     private LocalDateTime updateTime;
-    @ApiModelProperty("修改人")
+    @Schema(name = "updateBy",description = "修改人")
     private Long updateBy;
 }

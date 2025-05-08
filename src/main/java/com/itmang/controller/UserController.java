@@ -9,8 +9,8 @@ import com.itmang.pojo.vo.LoginVO;
 import com.itmang.properties.JwtProperties;
 import com.itmang.service.UserService;
 import com.itmang.utils.JwtUtil;
-import io.swagger.annotations.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@Tag(name = "用户登录接口")
+@Tag(name = "用户模块")
 @RequestMapping("/user")
 public class UserController {
 
