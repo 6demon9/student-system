@@ -3,6 +3,8 @@ package com.itmang.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.Page;
+import com.itmang.annotation.AutoFill;
+import com.itmang.enumeration.OperationType;
 import com.itmang.pojo.dto.UserPageDTO;
 import com.itmang.pojo.entity.PageResult;
 import com.itmang.pojo.entity.User;
@@ -20,4 +22,16 @@ public interface UserMapper extends BaseMapper<User> {
      */
     List<User> pageSearch(UserPageDTO userPageDTO);
 
+    /**
+     * 更新用户信息
+     * @param user
+     */
+    @AutoFill(value = OperationType.UPDATE)
+    void updateUser(User user);
+
+    /**
+     * 批量删除用户
+     * @param ids
+     */
+    void deleteUserIds(Long[] ids);
 }

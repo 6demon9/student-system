@@ -16,6 +16,8 @@ public class UserPageDTO implements Serializable {
     private String number;
     @Schema(name = "name",description = "姓名")
     private String name;
+    @Schema(name = "role",description = "角色")
+    private Integer role;
     @Schema(name = "sex",description = "性别")
     private Integer sex;
     @Schema(name = "age",description = "年龄")

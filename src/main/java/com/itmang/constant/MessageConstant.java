@@ -19,5 +19,6 @@ public class MessageConstant {
     public static final String REGISTER_SUCCESS = "注册成功";
     public static final String ALREAD_EXISTS = "已存在";
     public static final String SEARCH_SUCCESS = "查询成功";
-
+    public static final String USER_NOT_FOUND = "找不到该用户";
+    public static final String INSUFFICIENTPERMISSIONS = "权限不足";
 }

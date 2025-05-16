@@ -2,7 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itmang.mapper.UserMapper">
-<!--    number,name,role_id,sex,age,phone,address,create_time,create_by, update_time,update_by,status-->
+    <update id="updateUser">
+        update user
+        <set>
+            <if test="number != null and number != ''">number = #{number},</if>
+            <if test="password !=null and password != ''">password = #{password}</if>
+            <if test="role != null and role != ''">role = #{role},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="sex != null and sex != ''">sex = #{sex},</if>
+            <if test="age != null and age != ''">age = #{age},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteUserIds">
+        delete from user where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </delete>
+
     <select id="pageSearch" resultType="com.itmang.pojo.entity.User">
         select * from user
         <where>
@@ -13,6 +33,7 @@
                 and name like concat('%',#{name},'%')
             </if>
             <if test="sex != null and sex != ''">and sex = #{sex}</if>
+            <if test="role != null and role != ''">and role = #{role}</if>
             <if test="age != null and age != ''">and age = #{age}</if>
             <if test="status != null and status != ''">and status = #{status}</if>
             <if test="address != null and address != ''">

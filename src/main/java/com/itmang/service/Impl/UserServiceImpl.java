@@ -8,18 +8,18 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.itmang.constant.MessageConstant;
+import com.itmang.constant.RoleConstant;
 import com.itmang.constant.StatusConstant;
-import com.itmang.exception.AccountExistException;
-import com.itmang.exception.AccountLockedException;
-import com.itmang.exception.AccountNotFoundException;
+import com.itmang.context.BaseContext;
+import com.itmang.exception.*;
 import com.itmang.mapper.UserMapper;
 import com.itmang.pojo.dto.LoginDTO;
 import com.itmang.pojo.dto.RegisterUserDTO;
+import com.itmang.pojo.dto.UserDTO;
 import com.itmang.pojo.dto.UserPageDTO;
 import com.itmang.pojo.entity.PageResult;
 import com.itmang.pojo.entity.User;
 import com.itmang.service.UserService;
-import com.itmang.exception.PasswordErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -100,14 +100,108 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         }
         //账号不存在，则进行注册
         //1.先将数据拷贝
-        User user1 = new User();
-        BeanUtil.copyProperties(registerUserDTO,user1);
+        User userInsert = new User();
+        BeanUtil.copyProperties(registerUserDTO,userInsert);
         //2.将数据插入到数据库中
 //        user1.setRoleId(2L);
-        user1.setCreateBy(1L);
-        user1.setCreateTime(LocalDateTime.now());
-        user1.setUpdateBy(1L);
-        user1.setUpdateTime(LocalDateTime.now());
-        userMapper.insert(user1);
+        //userInsert.setCreateBy(BaseContext.getCurrentId());
+        userInsert.setCreateTime(LocalDateTime.now());
+        //userInsert.setUpdateBy(BaseContext.getCurrentId());
+        userInsert.setUpdateTime(LocalDateTime.now());
+        userMapper.insert(userInsert);
     }
+
+    /**
+     * 修改用户信息
+     * @param userDTO
+     */
+    public void updateUser(UserDTO userDTO) {
+        //1.将数据拷贝
+        User user = new User();
+        BeanUtil.copyProperties(userDTO,user);
+        //2.将数据插入到数据库中
+        userMapper.updateUser(user);
+    }
+
+    /**
+     * 修改用户状态
+     * @param status
+     */
+    public void updateStatus(Integer status,Long id) {
+        //判断当前的用户是否为管理员或老师
+        Long userId = BaseContext.getCurrentId();
+        User user = userMapper.selectById(userId);
+        if(user == null){//判断是否查询到用户
+            //没有查询到用户，则抛出异常
+            throw new UserNotFindException(MessageConstant.USER_NOT_FOUND);
+        }
+        //若为管理员则允许进行删除
+        if(user.getRole().equals(RoleConstant.ADMIN)){
+            //可以修改所有角色的状态
+            userMapper.updateUser(User.builder().status(status).id(id).build());
+        } else if (user.getRole().equals(RoleConstant.TEACHER) ){
+            //可以修改学生的状态
+            //判断修改的id是否为学生
+            User updateUser = userMapper.selectById(id);
+            if(user == null){//判断是否查询到用户
+                //没有查询到用户，则抛出异常
+                throw new UserNotFindException(MessageConstant.USER_NOT_FOUND);
+            }
+            if(updateUser.getRole().equals(RoleConstant.STUDENT)){//被修改的角色为学生，可以修改
+                userMapper.updateUser(User.builder().status(status).id(id).build());
+            }else{
+                throw new InsufficientPermissionsException(MessageConstant.INSUFFICIENTPERMISSIONS);
+            }
+
+        } else {
+            //若为普通用户则不允许进行删除
+            throw new InsufficientPermissionsException(MessageConstant.INSUFFICIENTPERMISSIONS);
+        }
+    }
+
+    /**
+     * 根据id删除用户
+     * @param ids
+     */
+    public void deleteByIds(Long[] ids) {
+        //判断当前的用户是否为管理员
+        Long userId = BaseContext.getCurrentId();
+        User user = userMapper.selectById(userId);
+        if(user == null){//判断是否查询到用户
+            //没有查询到用户，则抛出异常
+            throw new UserNotFindException(MessageConstant.USER_NOT_FOUND);
+        }
+        //若为管理员则允许进行删除
+        if(user.getRole().equals(RoleConstant.ADMIN)){
+            //允许删除
+            userMapper.deleteUserIds(ids);
+        }else{
+            //若为普通用户则不允许进行删除
+            throw new InsufficientPermissionsException(MessageConstant.INSUFFICIENTPERMISSIONS);
+        }
+    }
+
+    /**
+     * 修改用户角色
+     * @param role
+     * @param id
+     */
+    public void updateRole(Integer role, Long id) {
+        //判断当前的用户是否为管理员
+        Long userId = BaseContext.getCurrentId();
+        User user = userMapper.selectById(userId);
+        if(user == null){//判断是否查询到用户
+            //没有查询到用户，则抛出异常
+            throw new UserNotFindException(MessageConstant.USER_NOT_FOUND);
+        }
+        //若为管理员则允许进行删除
+        if(user.getRole().equals(RoleConstant.ADMIN)){
+            //允许修改角色
+            userMapper.updateUser(User.builder().role(role).id(id).build());
+        }else{
+            //若为普通用户则不允许进行删除
+            throw new InsufficientPermissionsException(MessageConstant.INSUFFICIENTPERMISSIONS);
+        }
+    }
+
 }

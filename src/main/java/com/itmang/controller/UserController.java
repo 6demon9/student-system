@@ -33,7 +33,7 @@ public class UserController {
     /**
      * 用户模块的功能
      * 登录、登出、注册、分页查询、查询用户具体信息、编辑用户信息
-     * 修改用户账户转态、批量删除用户
+     * 修改用户账户转态、批量删除用户，修改用户的角色
      */
 
     @Autowired
@@ -62,13 +62,11 @@ public class UserController {
                 jwtProperties.getAdminSecretKey(),//设置关键字
                 jwtProperties.getAdminTtl(),//设置token有效时间
                 claims);//设置声明信息（键值对）
-
         LoginVO loginVO = LoginVO.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .token(token)
                 .build();
-
         return Result.success(loginVO);
     }
 
@@ -109,6 +107,63 @@ public class UserController {
         return Result.success(pageResult);
     }
 
+    /**
+     * 查询用户具体信息接口
+     * @param id
+     * @return
+     */
+    @Operation(summary = "查询用户具体信息接口")
+    @GetMapping("/{id}")
+    public Result<User> getById(@PathVariable Long id){
+        log.info("查询用户具体信息:{}", id);
+        User user = userService.getById(id);
+        if(user == null){
+            return Result.error(MessageConstant.USER_NOT_FOUND);
+        }
+        return Result.success(user);
+    }
+
+    /**
+     * 编辑用户信息接口
+     * @param userDTO
+     * @return
+     */
+    @Operation(summary = "编辑用户信息接口")
+    @PostMapping("/update")
+    public Result update(@RequestBody UserDTO userDTO){
+        log.info("编辑用户信息:{}", userDTO);
+        userService.updateUser(userDTO);
+        return Result.success();
+    }
+
+    /**
+     * 修改用户账户转态接口
+     * @param status
+     * @return
+     */
+    @Operation(summary = "修改用户账户转态接口")
+    @PostMapping("status/{status}")
+    public Result updateStatus(@PathVariable Integer status,Long id){
+        log.info("修改用户账户转态:{}", status);
+        userService.updateStatus(status,id);
+        return Result.success();
+    }
+
+    @Operation(summary = "批量删除用户接口")
+    @PostMapping("/delete/{ids}")
+    public Result delete(@PathVariable Long[] ids){
+        log.info("批量删除用户:{}", ids);
+        userService.deleteByIds(ids);
+        return Result.success();
+    }
+
+    @Operation(summary = "修改用户的角色接口")
+    @PostMapping("/role/{role}")
+    public Result updateRole(@PathVariable Integer role,Long id){
+        log.info("修改用户的角色:{}", role);
+        userService.updateRole(role,id);
+        return Result.success();
+    }
 
 
 }

@@ -50,19 +50,19 @@ public class AutoFillAop {
         if(operationType.equals(OperationType.INSERT)){
             //获得方法
             Method setCreateTime =entriy.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_TIME,LocalDateTime.class);
-            Method setCreateUser =entriy.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER,Long.class);
+            Method setCreateBy =entriy.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_By,Long.class);
             Method setUpdateTime =entriy.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME,LocalDateTime.class);
-            Method setUpdateUser =entriy.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER,Long.class);
+            Method setUpdateBy =entriy.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_BY,Long.class);
             //调用得到的方法进行设置数据
             setCreateTime.invoke(entriy,now);
-            setCreateUser.invoke(entriy,userId);
+            setCreateBy.invoke(entriy,userId);
             setUpdateTime.invoke(entriy,now);
-            setUpdateUser.invoke(entriy,userId);
+            setUpdateBy.invoke(entriy,userId);
         } else if (operationType.equals(OperationType.UPDATE)) {
             Method setUpdateTime =entriy.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME,LocalDateTime.class);
-            Method setUpdateUser =entriy.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER,Long.class);
+            Method setUpdateBy =entriy.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_BY,Long.class);
             setUpdateTime.invoke(entriy,now);
-            setUpdateUser.invoke(entriy,userId);
+            setUpdateBy.invoke(entriy,userId);
         }else{
             log.info(MessageConstant.UNKNOWN_ERROR);
         }

@@ -19,8 +19,8 @@ public class User implements Serializable {
 
     @Schema(name = "id",description = "用户id")
     private Long id;
-    @Schema(name = "roleId",description = "角色id")
-    private Long roleId;
+    @Schema(name = "roleId",description = "角色")
+    private Integer role;
     @Schema(name = "number",description = "学号")
     private String number;
     @Schema(name = "password",description = "密码")

@@ -34,4 +34,29 @@ public interface UserService extends IService<User>{
      * @param registerUserDTO
      */
     void register(RegisterUserDTO registerUserDTO);
+
+    /**
+     * 修改用户信息
+     * @param userDTO
+     */
+    void updateUser(UserDTO userDTO);
+
+    /**
+     * 修改用户状态
+     * @param status
+     */
+    void updateStatus(Integer status,Long id);
+
+    /**
+     * 批量删除用户
+     * @param ids
+     */
+    void deleteByIds(Long[] ids);
+
+    /**
+     * 修改用户角色
+     * @param role
+     * @param id
+     */
+    void updateRole(Integer role, Long id);
 }
