@@ -1,4 +1,4 @@
-package com.itmang.pojo.entity;
+package com.itmang.pojo.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -14,8 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(name = "College",description = "学院实体类")
-public class College implements Serializable {
+@Schema(name = "CollegeDTO" ,description = "编辑学院信息DTO")
+public class CollegeDTO implements Serializable {
 
     @Schema(name = "id",description = "学院id")
     private Long id;
@@ -25,12 +25,4 @@ public class College implements Serializable {
     private String concise;
     @Schema(name = "majors",description = "学院专业")
     private String majors;
-    @Schema(name = "createTime",description = "创建时间")
-    private LocalDateTime createTime;
-    @Schema(name = "createBy",description = "创建人")
-    private Long createBy;
-    @Schema(name = "updateTime",description = "修改时间")
-    private LocalDateTime updateTime;
-    @Schema(name = "updateBy",description = "修改人")
-    private Long updateBy;
 }

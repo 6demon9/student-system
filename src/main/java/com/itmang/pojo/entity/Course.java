@@ -23,6 +23,8 @@ public class Course implements Serializable {
     private String code;
     @Schema(name = "name",description = "课程名字")
     private String name;
+    @Schema(name = "state",description = "课程说明")
+    private String state;
     @Schema(name = "createTime",description = "创建时间")
     private LocalDateTime createTime;
     @Schema(name = "createBy",description = "创建人")
