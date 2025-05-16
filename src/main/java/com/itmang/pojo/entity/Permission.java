@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Schema(name = "Permission",description = "权限实体类")
-public class Permission {
+public class Permission implements Serializable {
 
     @Schema(name = "id",description = "权限id")
     private Long id;

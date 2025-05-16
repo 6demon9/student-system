@@ -63,8 +63,9 @@
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.3.0</version>
+            <version>1.4.7</version>
         </dependency>
+
 
         <!-- poi -->
         <dependency>
@@ -97,11 +98,23 @@
             <version>1.2.76</version>
         </dependency>
 
+
+        <!--jwt令牌的依赖2-->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.4.0</version>
+        </dependency>
+
+        <!--jwt令牌依赖1-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
+
+
+
 <!--        web请求发送-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -139,6 +152,8 @@
 
     <build>
         <plugins>
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

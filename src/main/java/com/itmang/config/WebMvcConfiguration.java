@@ -50,31 +50,37 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         //log.info("开始注册自定义拦截器...");
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/user/**")
-                .excludePathPatterns("/user/login");
-                //.excludePathPatterns("/user/**");
+                //放行swagger3文档路径
+                .excludePathPatterns("/swagger**/**")
+                .excludePathPatterns("/webjars/**")
+                .excludePathPatterns("/v3/**")
+                .excludePathPatterns("/doc.html")
+                //放行登录注册路径
+                .excludePathPatterns("/user/login")
+                .excludePathPatterns("/user/register");
 
     }
 
-    /**
-     * 通过knife4j生成接口文档
-     * @return
-     */
-    @Bean
-    public Docket docketAdmin() {
-        ApiInfo apiInfo = new ApiInfoBuilder()
-                .title("学生管理系统接口文档")
-                .version("2.0")
-                .description("学生管理系统接口文档")
-                .build();
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.itmang.controller"))
-                .paths(PathSelectors.any())
-                .build();
-        return docket;
-    }
-
+//    /**
+//     * 通过knife4j生成接口文档
+//     * @return
+//     */
+//    @Bean
+//    public Docket docketAdmin() {
+//        ApiInfo apiInfo = new ApiInfoBuilder()
+//                .title("学生管理系统接口文档")
+//                .version("2.0")
+//                .description("学生管理系统接口文档")
+//                .build();
+//        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+//                .apiInfo(apiInfo)
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("com.itmang.controller"))
+//                .paths(PathSelectors.any())
+//                .build();
+//        return docket;
+//    }
+//
 
 
     /**
@@ -83,8 +89,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      */
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         log.info("开始配置静态资源映射...");
-        registry.addResourceHandler("/doc.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
+        //映射swagger3文档的静态资源
+        registry.addResourceHandler("/swagger-ui/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }

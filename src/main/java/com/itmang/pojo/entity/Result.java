@@ -20,11 +20,11 @@ public class Result<T> implements Serializable {
     private T data;//响应成功返回的数据
 
     public static <T> Result<T> success() {
-        return new Result<T>(1,null,null);
+        return new Result<T>(1,"sucess",null);
     }
 
-    public static <T> Result<T> success(T object) {
-        return new Result<T>(1, null, object);
+    public static <T> Result<T> success( T object) {
+        return new Result<T>(1, "sucess", object);
     }
 
     public static <T> Result<T> error(String msg) {

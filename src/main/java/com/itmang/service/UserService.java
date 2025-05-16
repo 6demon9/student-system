@@ -1,8 +1,10 @@
 package com.itmang.service;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.itmang.pojo.dto.LoginDTO;
+import com.itmang.pojo.dto.RegisterUserDTO;
 import com.itmang.pojo.dto.UserDTO;
 import com.itmang.pojo.dto.UserPageDTO;
 import com.itmang.pojo.entity.PageResult;
@@ -26,4 +28,10 @@ public interface UserService extends IService<User>{
      * @return
      */
     PageResult pageSearch(UserPageDTO userPageDTO);
+
+    /**
+     * 注册
+     * @param registerUserDTO
+     */
+    void register(RegisterUserDTO registerUserDTO);
 }

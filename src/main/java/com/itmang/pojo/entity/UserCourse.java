@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Schema(name = "UserCourse",description = "选课实体类")
-public class UserCourse {
+public class UserCourse implements Serializable {
 
     @Schema(name = "id",description = "选课id")
     private Long id;

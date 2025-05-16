@@ -1,9 +1,11 @@
 package com.itmang.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.itmang.constant.JwtClaimsConstant;
 import com.itmang.constant.MessageConstant;
 import com.itmang.pojo.dto.LoginDTO;
+import com.itmang.pojo.dto.RegisterUserDTO;
 import com.itmang.pojo.dto.UserDTO;
 import com.itmang.pojo.dto.UserPageDTO;
 import com.itmang.pojo.entity.PageResult;
@@ -27,6 +29,12 @@ import java.util.Map;
 @Tag(name = "用户模块")
 @RequestMapping("/user")
 public class UserController {
+
+    /**
+     * 用户模块的功能
+     * 登录、登出、注册、分页查询、查询用户具体信息、编辑用户信息
+     * 修改用户账户转态、批量删除用户
+     */
 
     @Autowired
     private UserService userService;
@@ -70,11 +78,29 @@ public class UserController {
      */
     @Operation(summary = "退出登录接口")
     @PostMapping("/logout")
-    public Result<String> logout(){
+    public Result logout(){
         log.info("用户退出登录");
-        return Result.success(MessageConstant.LOGOUT_SUCCESS);
+        return Result.success();
     }
 
+    /**
+     * 注册用户接口
+     * @param registerUserDTO
+     * @return
+     */
+    @Operation(summary = "注册用户接口")
+    @PostMapping("/register")
+    public Result save(@RequestBody RegisterUserDTO registerUserDTO){
+        log.info("注册用户信息:{}", registerUserDTO);
+        userService.register(registerUserDTO);
+        return Result.success();
+    }
+
+    /**
+     * 分页查询用户接口
+     * @param userPageDTO
+     * @return
+     */
     @Operation(summary = "分页查询用户接口")
     @GetMapping("/page")
     public Result<PageResult> page(UserPageDTO userPageDTO){

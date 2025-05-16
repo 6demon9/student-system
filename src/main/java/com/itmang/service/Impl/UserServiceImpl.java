@@ -1,16 +1,20 @@
 package com.itmang.service.Impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.itmang.constant.MessageConstant;
 import com.itmang.constant.StatusConstant;
+import com.itmang.exception.AccountExistException;
 import com.itmang.exception.AccountLockedException;
 import com.itmang.exception.AccountNotFoundException;
 import com.itmang.mapper.UserMapper;
 import com.itmang.pojo.dto.LoginDTO;
-import com.itmang.pojo.dto.UserDTO;
+import com.itmang.pojo.dto.RegisterUserDTO;
 import com.itmang.pojo.dto.UserPageDTO;
 import com.itmang.pojo.entity.PageResult;
 import com.itmang.pojo.entity.User;
@@ -19,6 +23,9 @@ import com.itmang.exception.PasswordErrorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Slf4j
@@ -71,8 +78,36 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     public PageResult pageSearch(UserPageDTO userPageDTO) {
         //使用pageHelper工具进行分页查询
         PageHelper.startPage(userPageDTO.getPageNum(),userPageDTO.getPageSize());
-        //进行条件查询
-        Page<User> page = userMapper.pageSearch(userPageDTO);
-        return new PageResult(page.getTotal(),page.getResult());
+        List<User> userList= userMapper.pageSearch(userPageDTO);//进行条件查询
+        PageInfo<User> pageInfo = new PageInfo<>(userList);
+        log.info("{}",pageInfo.toString());
+        return new PageResult(pageInfo.getTotal(),pageInfo.getList());
+    }
+
+
+
+    /**
+     * 用户注册
+     * @param registerUserDTO
+     */
+    public void register(RegisterUserDTO registerUserDTO) {
+        //判断当前的账号是否存在
+        User user = userMapper.selectOne(new QueryWrapper<User>()
+                .eq("number", registerUserDTO.getNumber()));
+        if(user != null){
+            //说明账号存在，报错账号存在
+            throw new AccountExistException(MessageConstant.ACCOUNT_EXISTS);
+        }
+        //账号不存在，则进行注册
+        //1.先将数据拷贝
+        User user1 = new User();
+        BeanUtil.copyProperties(registerUserDTO,user1);
+        //2.将数据插入到数据库中
+//        user1.setRoleId(2L);
+        user1.setCreateBy(1L);
+        user1.setCreateTime(LocalDateTime.now());
+        user1.setUpdateBy(1L);
+        user1.setUpdateTime(LocalDateTime.now());
+        userMapper.insert(user1);
     }
 }

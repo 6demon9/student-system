@@ -5,6 +5,7 @@ package com.itmang.aop;
 import com.itmang.annotation.AutoFill;
 import com.itmang.constant.AutoFillConstant;
 
+import com.itmang.constant.MessageConstant;
 import com.itmang.context.BaseContext;
 import com.itmang.enumeration.OperationType;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class AutoFillAop {
     //定义切面
     @Before("autoFillPointCut()")
     public void AutoFill(JoinPoint joinPoint) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-       // log.info("自动填充数据");
+        log.info("自动填充数据");
         //获取方法名签名
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();
         //获取方法上的注解
@@ -63,7 +64,7 @@ public class AutoFillAop {
             setUpdateTime.invoke(entriy,now);
             setUpdateUser.invoke(entriy,userId);
         }else{
-          //  log.info(MessageConstant.UNKNOWN_ERROR);
+            log.info(MessageConstant.UNKNOWN_ERROR);
         }
 
 

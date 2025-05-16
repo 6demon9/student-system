@@ -5,11 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(name = "UserDTO",description = "查询条件信息")
-public class UserPageDTO {
+@Schema(name = "UserDTO",description = "查询用户条件信息DTO")
+public class UserPageDTO implements Serializable {
     @Schema(name = "number",description = "学号")
     private String number;
     @Schema(name = "name",description = "姓名")
@@ -23,7 +25,7 @@ public class UserPageDTO {
     @Schema(name = "status",description = "状态")
     private Integer status;
     @Schema(name = "pageNum",description = "当前页")
-    private Integer pageNum;
+    private int pageNum;
     @Schema(name = "pageSize",description = "每页显示条数")
-    private Integer pageSize;
+    private int pageSize;
 }

@@ -1,14 +1,10 @@
 package com.itmang.utils;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.itmang.properties.JwtProperties;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
@@ -40,11 +36,11 @@ public class JwtUtil {
                 // 如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值，一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的
                 .setClaims(claims)
                 // 设置签名使用的签名算法和签名使用的秘钥
-                .signWith(signatureAlgorithm, secretKey.getBytes(StandardCharsets.UTF_8))
+                .signWith(signatureAlgorithm, secretKey)
                 // 设置过期时间
                 .setExpiration(exp);
 
-        return builder.compact();
+        return builder.compact();//生成字符串返回
     }
 
     /**
@@ -58,24 +54,11 @@ public class JwtUtil {
         // 得到DefaultJwtParser
         Claims claims = Jwts.parser()
                 // 设置签名的秘钥
-                .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                .setSigningKey(secretKey)
                 // 设置需要解析的jwt
-                .parseClaimsJws(token).getBody();
+                .parseClaimsJws(token)
+                .getBody();
         return claims;
     }
-//    public static boolean verifyToken(String token) {
-//        if (StringUtils.isEmpty(token)) {// token为空
-//            return false;
-//        }
-//        try{
-//            Claims claims = Jwts.parser()
-//                    .setSigningKey(jwtProperties.getAdminSecretKey())
-//                    .parseClaimsJws(token)
-//                    .getBody();
-//        }catch (Exception e){
-//            return false;
-//        }
-//        return true;
-//    }
 
 }
