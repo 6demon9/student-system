@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itmang.mapper.UserCollegeMapper">
+    <insert id="addCollegeUser">
+        insert into user_college(user_id, college_id,create_time,create_by, update_time, update_by)
+        values (#{userId}, #{collegeId},#{createTime},#{createBy},#{updateTime},#{updateBy})
+    </insert>
+
+    <delete id="deleteCollegeUser">
+        delete from user_college where user_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+        and college_id = #{collegeId}
+    </delete>
+
+    <select id="pageCollegeUser" resultType="com.itmang.pojo.vo.UserCollegePageVO">
+        select c.id  college_id,u.id  user_id,c.name college_name,u.number,u.name,uc.create_time from user_college uc
+            left join user u on uc.user_id = u.id
+            right join college c on uc.college_id = c.id
+        <where>
+            <if test="collegeId != null and collegeId != ''">college_id=#{collegeId}</if>
+        </where>
+    </select>
+</mapper>

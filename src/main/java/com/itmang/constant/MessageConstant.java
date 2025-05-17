@@ -22,4 +22,7 @@ public class MessageConstant {
     public static final String USER_NOT_FOUND = "找不到该用户";
     public static final String INSUFFICIENTPERMISSIONS = "权限不足";
     public static final String COLLEGE_EXIST = "学院已存在";
+    public static final String USER_COLLEGE_EXIST = "用户已有学院";
+    public static final String FAIL_DELETE_PART = "部分删除失败";
+    public static final String FAIL_DELETE = "删除失败";
 }

@@ -3,9 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.itmang.mapper.CollegeMapper">
     <insert id="insertCollege">
-        insert into college(name, concise, majors)
-        values (#{name}, #{concise}, #{majors})
+        insert into college(name, concise, majors, create_time,create_by, update_time, update_by)
+        values (#{name}, #{concise}, #{majors},#{createTime},#{createBy},#{updateTime},#{updateBy})
     </insert>
+
 
     <update id="updateCollege">
         update college
@@ -13,9 +14,19 @@
             <if test="name != null and name != ''">name = #{name},</if>
             <if test="concise != null and concise != ''">concise = #{concise},</if>
             <if test="majors != null and majors != ''">majors = #{majors},</if>
+            update_time = #{updateTime},update_by = #{updateBy}
         </set>
         where id = #{id}
     </update>
+
+    <update id="updateInformation">
+        update college set update_time = #{updateTime}, update_by = #{updateBy} where id = #{id}
+    </update>
+
+    <delete id="deleteCollege">
+        delete from college where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">#{id}</foreach>
+    </delete>
 
     <select id="pageCollege" resultType="com.itmang.pojo.entity.College">
         select * from college

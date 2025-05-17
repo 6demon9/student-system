@@ -32,10 +32,10 @@ public class UserController {
 
     /**
      * 用户模块的功能
-     * 登录、登出、注册、分页查询（权限：所有人）
-     * 编辑用户信息（权限：管理员）
-     * 修改用户账户转态（权限：老师（只能修改学生），管理员）
-     * 查询用户具体信息、批量删除用户，修改用户的角色（权限：管理员）
+     * 登录(√)、登出(√)、注册(√)、分页查询(√)（权限：所有人）
+     * 修改用户账户转态(√)（权限：老师（只能修改学生），管理员）
+     * 查询用户具体信息(√)、编辑用户信息(√)（权限：管理员或者自己）
+     * 批量删除用户(√)，修改用户的角色(√)（权限：管理员）
      */
 
     @Autowired
@@ -118,10 +118,7 @@ public class UserController {
     @GetMapping("/{id}")
     public Result<User> getById(@PathVariable Long id){
         log.info("查询用户具体信息:{}", id);
-        User user = userService.getById(id);
-        if(user == null){
-            return Result.error(MessageConstant.USER_NOT_FOUND);
-        }
+        User user = userService.selectUser(id);
         return Result.success(user);
     }
 
@@ -143,10 +140,10 @@ public class UserController {
      * @param status
      * @return
      */
-    @Operation(summary = "修改用户账户转态接口")
+    @Operation(summary = "修改用户状态接口")
     @PostMapping("status/{status}")
     public Result updateStatus(@PathVariable Integer status,Long id){
-        log.info("修改用户账户转态:{}", status);
+        log.info("修改用户状态:{}", status);
         userService.updateStatus(status,id);
         return Result.success();
     }

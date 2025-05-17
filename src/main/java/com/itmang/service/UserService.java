@@ -59,4 +59,11 @@ public interface UserService extends IService<User>{
      * @param id
      */
     void updateRole(Integer role, Long id);
+
+    /**
+     * 根据id查询用户信息
+     * @param id
+     * @return
+     */
+    User selectUser(Long id);
 }

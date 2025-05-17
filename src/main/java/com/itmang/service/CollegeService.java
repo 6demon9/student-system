@@ -27,4 +27,30 @@ public interface CollegeService extends IService<College>{
      * @param addCollegeDTO
      */
     void addCollege(AddCollegeDTO addCollegeDTO);
+
+    /**
+     * 批量删除学院
+     * @param ids
+     */
+    void deleteCollege(Long[] ids);
+
+    /**
+     * 新增用户到学院
+     * @param addCollegeUserDTO
+     */
+    void addCollegeUser(AddCollegeUserDTO addCollegeUserDTO);
+
+    /**
+     * 删除学院中的用户
+     * @param ids
+     * @param collegeId
+     */
+    void deleteCollegeUser(Long[] ids, Long collegeId);
+
+    /**
+     * 分页查询学院中的用户
+     * @param userCollegePageDTO
+     * @return
+     */
+    PageResult pageCollegeUser(UserCollegePageDTO userCollegePageDTO);
 }

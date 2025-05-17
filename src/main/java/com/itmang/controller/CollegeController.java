@@ -2,9 +2,7 @@ package com.itmang.controller;
 
 
 import com.itmang.constant.MessageConstant;
-import com.itmang.pojo.dto.AddCollegeDTO;
-import com.itmang.pojo.dto.CollegeDTO;
-import com.itmang.pojo.dto.CollegePageDTO;
+import com.itmang.pojo.dto.*;
 import com.itmang.pojo.entity.College;
 import com.itmang.pojo.entity.PageResult;
 import com.itmang.pojo.entity.Result;
@@ -24,9 +22,9 @@ public class CollegeController {
 
     /**
      * 学院模块的功能
-     * 分页条件查询学院(√)、查询学院具体信息(√)（权限：所有人）
-     * 编辑学院的信息(√)、新增学院(√)、批量删除学院()（权限：管理员）
-     * 添加用户到学院()、批量删除学院中的用户()、分页条件查询学院中的用户()（权限：老师、管理员）
+     * 分页条件查询学院(√)、查询学院具体信息(√)、分页条件查询学院中的用户(√)（权限：所有人）
+     * 编辑学院的信息(√)、新增学院(√)、批量删除学院(√)（权限：管理员）
+     * 添加用户到学院(√)、批量删除学院中的用户(√)（权限：老师(学生用户)、管理员）
      */
 
     @Autowired
@@ -76,7 +74,7 @@ public class CollegeController {
      * @return
      */
     @Operation(summary = "新增学院")
-    @PostMapping("/add")
+    @PostMapping("/add/college")
     public Result addCollege(@RequestBody AddCollegeDTO addCollegeDTO){
         log.info("新增学院：{}",addCollegeDTO);
         collegeService.addCollege(addCollegeDTO);
@@ -84,9 +82,39 @@ public class CollegeController {
     }
 
     @Operation(summary = "批量删除学院")
-    @PostMapping("/delete/{ids}")
+    @PostMapping("/delete/college/{ids}")
     public Result deleteCollege(@PathVariable Long[] ids){
+        log.info("批量删除学院：{}",ids);
+        collegeService.deleteCollege(ids);
         return Result.success();
     }
 
+    @Operation(summary = "添加用户到学院")
+    @PostMapping("/add/user")
+    public Result addCollegeUser(@RequestBody AddCollegeUserDTO addCollegeUserDTO){
+        log.info("添加用户到学院：{}",addCollegeUserDTO);
+        collegeService.addCollegeUser(addCollegeUserDTO);
+        return Result.success();
+    }
+
+    @Operation(summary = "批量删除学院中的用户")
+    @PostMapping("/delete/user/{ids}")
+    public Result deleteCollegeUser(@PathVariable Long[] ids, Long collegeId){
+        log.info("批量删除学院{}中的用户：{}",collegeId,ids);
+        collegeService.deleteCollegeUser(ids,collegeId);
+        return Result.success();
+    }
+
+    /**
+     * 分页查询学院中的用户
+     * @param userCollegePageDTO
+     * @return
+     */
+    @Operation(summary = "根据学院id分页查询学院中的用户")
+    @GetMapping("/page/user")
+    public Result<PageResult> pageCollegeUser(UserCollegePageDTO userCollegePageDTO){
+        log.info("根据学院id分页查询学院中的用户：{}",userCollegePageDTO);
+        PageResult pageResult = collegeService.pageCollegeUser(userCollegePageDTO);
+        return Result.success(pageResult);
+    }
 }
